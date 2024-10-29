@@ -1,3 +1,3 @@
-bucket = "terraform-d80"
+bucket = "hptldevops-state"
 key    = "roboshop/prod/terraform.tfstate"
 region = "us-east-2"
