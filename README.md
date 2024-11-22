@@ -42,5 +42,9 @@ use root token method to login
 ```text
 git pull ; ansible-playbook 10-hashicorp-vault.yml -e vault_token= {{ token }}
 ```
-
+#### to unseal vault from command prompt
+```text
+$sudo -i
+VAULT_ADDR=http://127.0.0.1:8200 vault operator unseal 0d76651d1698321....type_in_entire_unseal_key
+```
 
