@@ -56,9 +56,8 @@ module "web_mod" {
   vault_token    = var.vault_token
 }
 
-module "eks" {
+module "eks_mod" {
   source = "./modules/eks"
-
   env = var.env
   subnet_ids = var.eks["subnet_ids"]
   addons     = var.eks["addons"]

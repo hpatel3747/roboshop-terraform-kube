@@ -66,4 +66,32 @@ eks = {
     vpc-cni = {}
     kube-proxy = {}
   }
-#verify your subnet ids (this id are from Raghu's code)
+  #verify your subnet ids (this id are from Raghu's code)
+  access_entries = {
+    workstation = {
+      principal_arn     = "arn:aws:iam::585768147521:role/WorkstationRole"
+      kubernetes_groups = []
+      policy_arn        = "arn:aws:eks::aws:cluster-access-policy/AmazonEKSClusterAdminPolicy"
+      access_scope_type = "cluster"
+      access_scope_namespaces = []
+    }
+    # UI Access
+    ui-access = {
+      principal_arn     = "arn:aws:iam::585768147521:root"
+      kubernetes_groups = []
+      policy_arn        = "arn:aws:eks::aws:cluster-access-policy/AmazonEKSClusterAdminPolicy"
+      access_scope_type = "cluster"
+      access_scope_namespaces = []
+    }
+  }
+
+  node_groups = {
+    g1 = {
+      desired_size  = 1
+      max_size      = 2
+      min_size      = 1
+      capacity_type = "SPOT"
+      instance_types = ["t3.large"]
+    }
+  }
+}
