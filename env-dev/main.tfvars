@@ -67,6 +67,7 @@ eks = {
     kube-proxy = {}
   }
   #verify your subnet ids (this id are from Raghu's code)
+  # arn is unique identifier for a resource in aws such as ec2, s3 bucket, etc.
   access_entries = {
     workstation = {
       principal_arn     = "arn:aws:iam::585768147521:role/WorkstationRole"
@@ -84,7 +85,6 @@ eks = {
       access_scope_namespaces = []
     }
   }
-
   node_groups = {
     g1 = {
       desired_size  = 1
