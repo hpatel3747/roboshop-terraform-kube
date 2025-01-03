@@ -1,3 +1,24 @@
+## variable for modules
+variable "env" {}
+variable "component_name" {}
+variable "instance_type" {}
+variable "app_port" {}
+variable "zone_id" {}
+variable "domain_name" {}
+variable "vault_token" {}
+
+#create data sources
+data "aws_ami" "ami" {
+  most_recent = true
+  name_regex  = "RHEL-9-DevOps-Practice"
+  owners      = ["973714476881"]
+}
+
+data "vault_generic_secret" "ssh" {
+  path = "infra-secrets/ssh"
+}
+
+#create security group resource in aws
 resource "aws_security_group" "sg" {
   name        = "${var.component_name}-${var.env}-sg"
   description = "Inbound allow for ${var.component_name}"
@@ -24,7 +45,7 @@ resource "aws_security_group" "sg" {
   }
 }
 
-
+#create EC2 instance in aws, associate security group that was created above
 resource "aws_instance" "instance" {
   ami                    = data.aws_ami.ami.id
   instance_type          = var.instance_type
@@ -34,6 +55,7 @@ resource "aws_instance" "instance" {
   }
 }
 
+# use null_resource to create standard resource, takes no further action
 resource "null_resource" "ansible-pull" {
   provisioner "remote-exec" {
     connection {
@@ -50,6 +72,7 @@ resource "null_resource" "ansible-pull" {
   }
 }
 
+#create dns record resource to make dns entries in the route53 dns service
 resource "aws_route53_record" "record" {
   zone_id = var.zone_id
   name    = "${var.component_name}-${var.env}.${var.domain_name}"

@@ -15,7 +15,7 @@ terraform {
 }
 
 ## Define the modules to deploy EC2 instances for databases, app and web servers
-module "db_instances" {
+module "db_mod" {
   for_each       = var.db_instances
   source         = "./modules/ec2"
   env            = var.env
@@ -27,8 +27,8 @@ module "db_instances" {
   vault_token    = var.vault_token
 }
 
-module "app_instances" {
-  depends_on     = [module.db_instances]
+module "app_mod" {
+  depends_on     = [module.db_mod]
   for_each       = var.app_instances
   source         = "./modules/ec2"
   env            = var.env
@@ -40,8 +40,8 @@ module "app_instances" {
   vault_token    = var.vault_token
 }
 
-module "web_instances" {
-  depends_on     = [module.app_instances]
+module "web_mod" {
+  depends_on     = [module.app_mod]
   for_each       = var.web_instances
   source         = "./modules/ec2"
   env            = var.env
