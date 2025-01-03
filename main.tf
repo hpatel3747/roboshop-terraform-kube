@@ -1,3 +1,20 @@
+#Define all the variables in this variable file
+# make sure values are provided thru auto.tfvars, .tfvars or from cli
+variable "env" {}
+variable "db_instances" {}
+variable "app_instances" {}
+variable "web_instances" {}
+variable "zone_id" {}
+variable "domain_name" {}
+variable "vault_token" {}
+
+#state file
+terraform {
+  backend "s3" {
+  }
+}
+
+## Define the modules to deploy EC2 instances for databases, app and web servers
 module "db_instances" {
   for_each       = var.db_instances
   source         = "./modules/ec2"
