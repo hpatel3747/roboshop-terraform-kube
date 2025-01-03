@@ -15,6 +15,9 @@ terraform {
 }
 
 ## Define the modules to deploy EC2 instances for databases, app and web servers
+# in blocks where for_each is set, an additional 'each' object is available in expression. so in the block below, each.key is for db_instances variable,
+# see the value in main.tfvars for each.key and each.value for db_instances variable only
+# value of vault_token will be supplied in the cli, value of other variables are provided in the main.tfvars file
 module "db_mod" {
   for_each       = var.db_instances
   source         = "./modules/ec2"
@@ -53,4 +56,12 @@ module "web_mod" {
   vault_token    = var.vault_token
 }
 
+module "eks" {
+  source = "./modules/eks"
 
+  env = var.env
+  subnet_ids = var.eks["subnet_ids"]
+  addons     = var.eks["addons"]
+  node_groups = var.eks["node_groups"]
+  access_entries = var.eks["access_entries"]
+}

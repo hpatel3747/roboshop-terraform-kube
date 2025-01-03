@@ -59,3 +59,11 @@ web_instances = {
     instance_type = "t3.small"
   }
 }
+
+eks = {
+  subnet_ids = ["subnet-03267e70b0f121080", "subnet-0aee3b0522317971a"]
+  addons = {
+    vpc-cni = {}
+    kube-proxy = {}
+  }
+#verify your subnet ids (this id are from Raghu's code)
