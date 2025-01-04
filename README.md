@@ -47,4 +47,4 @@ git pull ; ansible-playbook 10-hashicorp-vault.yml -e vault_token= {{ token }}
 $sudo -i
 VAULT_ADDR=http://127.0.0.1:8200 vault operator unseal 0d76651d1698321....type_in_entire_unseal_key
 ```
-##
+## test
