@@ -2,8 +2,6 @@
 # make sure values are provided thru auto.tfvars, .tfvars or from cli
 variable "env" {}
 variable "db_instances" {}
-variable "app_instances" {}
-variable "web_instances" {}
 variable "zone_id" {}
 variable "domain_name" {}
 variable "vault_token" {}
@@ -20,32 +18,6 @@ terraform {
 # value of vault_token will be supplied in the cli, value of other variables are provided in the main.tfvars file
 module "db_mod" {
   for_each       = var.db_instances
-  source         = "./modules/ec2"
-  env            = var.env
-  app_port       = each.value["app_port"]
-  component_name = each.key
-  instance_type  = each.value["instance_type"]
-  domain_name    = var.domain_name
-  zone_id        = var.zone_id
-  vault_token    = var.vault_token
-}
-
-module "app_mod" {
-  depends_on     = [module.db_mod]
-  for_each       = var.app_instances
-  source         = "./modules/ec2"
-  env            = var.env
-  app_port       = each.value["app_port"]
-  component_name = each.key
-  instance_type  = each.value["instance_type"]
-  domain_name    = var.domain_name
-  zone_id        = var.zone_id
-  vault_token    = var.vault_token
-}
-
-module "web_mod" {
-  depends_on     = [module.app_mod]
-  for_each       = var.web_instances
   source         = "./modules/ec2"
   env            = var.env
   app_port       = each.value["app_port"]
