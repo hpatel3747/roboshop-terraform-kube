@@ -36,3 +36,4 @@ module "eks_mod" {
   node_groups = var.eks["node_groups"]
   access_entries = var.eks["access_entries"]
 }
+#
