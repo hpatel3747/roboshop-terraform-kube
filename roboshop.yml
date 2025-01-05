@@ -1,4 +1,7 @@
 #deploy frontend
+# deployments --> Replicas --> PODs --> Containers --> images
+# containerport is the port on which application within container is listening on and is accessible only from other container within the same pod
+# to expose it a service is required
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -42,6 +45,13 @@ spec:
             - name: PAYMENT_PORT
               value: "8080"
 ---
+# although each pod has unique ip address, those ips are not exposed outside the cluster without a service. service allows your application to receive traffic
+# service can be exposed in different ways by specifying type in the spec of the service. e.g type: LoadBalancer, or type: ClusterIP
+# type: ClusterIP makes the service reachable from within the cluster only
+#type: NodePort - exposes service on the same port of each selected node, accessible from outside the cluster using nodeip:nodeport, note that nodeport is still internal port
+#type: LoadBalancer - creates an external load balancer in the current cloud and assigns a fixed external IP to the service
+#type: ExternalName - maps the service to the contents of the external field by returning a CNAME record with its value, requires v1.7 or higher of kube-dns or coredns version 0.0.8 or higher
+
 apiVersion: v1
 kind: Service
 metadata:
